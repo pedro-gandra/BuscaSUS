@@ -1,0 +1,23 @@
+termo,grupo,tipo_cnes,nao_preferidos,tg,tr
+Atenção básica,categoria,,posto|unidade de saúde|atenção primária,,
+Posto de Saúde,tipo,01,,Atenção básica,Centro de Saúde/Unidade Básica
+Centro de Saúde/Unidade Básica,tipo,02,UBS|unidade básica|unidade básica de saúde|centro de saúde|postinho|PSF|ESF|saúde da família,Atenção básica,Posto de Saúde
+Urgência e emergência,categoria,,urgência|plantão|atendimento de urgência,,
+Pronto Atendimento,tipo,73,UPA|UPA 24h|PA|pronto atendimento,Urgência e emergência,Pronto Socorro Geral
+Pronto Socorro Geral,tipo,20,PS|pronto-socorro|emergência|hospital de pronto-socorro,Urgência e emergência,Pronto Atendimento|Hospital Geral
+Pronto Socorro Especializado,tipo,21,,Urgência e emergência,Pronto Socorro Geral
+Atendimento especializado,categoria,,especialista|especialidade|consulta com especialista,,
+Policlínica,tipo,04,,Atendimento especializado,Clínica/Centro de Especialidade
+Clínica/Centro de Especialidade,tipo,36,centro de especialidades|clínica especializada|CEO|centro de especialidades odontológicas,Atendimento especializado,Policlínica
+Centro de Atenção Psicossocial,tipo,70,CAPS|CAPS AD|CAPSi|CERSAM|saúde mental,Atendimento especializado,
+Hospitais,categoria,,hospital,,
+Hospital Geral,tipo,05,,Hospitais,Pronto Socorro Geral
+Hospital Especializado,tipo,07,,Hospitais,
+Exames,categoria,,exame|exames|diagnóstico,,
+Unidade de Apoio Diagnose e Terapia,tipo,39,SADT|laboratório|exame de sangue|raio-x|ultrassom,Exames,
+Farmácias,categoria,,,,
+Farmácia,tipo,43,remédio|medicamento|farmácia distrital,Farmácias,
+Características de atendimento,faceta,,,,
+Atendimento 24 horas,caracteristica,,24h|24 horas|aberto à noite,Características de atendimento,Urgência e emergência
+Maternidade,caracteristica,,parto|obstetrícia|centro obstétrico,Características de atendimento,
+Internação,caracteristica,,internar|leito,Características de atendimento,Hospitais
