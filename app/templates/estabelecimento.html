@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block titulo %}{{ e.title }} – BuscaSUS{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+{% endblock %}
+{% block conteudo %}
+<p><a href="javascript:history.back()">← Voltar</a></p>
+<h1>{{ e.title }}</h1>
+<p class="meta">{{ e.type }} · {{ e.categoria }}</p>
+<dl class="detalhes">
+  <dt>Endereço</dt>
+  <dd>{{ e.logradouro }}{% if e.numero %}, {{ e.numero }}{% endif %}{% if e.bairro %} – {{ e.bairro }}{% endif %}<br>
+    {{ e.municipio_nome }}/{{ e.uf }}{% if e.cep %} · CEP {{ e.cep[:5] }}-{{ e.cep[5:] }}{% endif %}</dd>
+  {% if e.telefone %}<dt>Telefone</dt><dd><a href="tel:{{ e.telefone }}">{{ e.telefone }}</a></dd>{% endif %}
+  {% if e.turno %}<dt>Atendimento</dt><dd>{{ e.turno }}</dd>{% endif %}
+  {% if e.esfera %}<dt>Esfera</dt><dd>{{ e.esfera }}</dd>{% endif %}
+  {% if e.alternative %}<dt>Razão social</dt><dd>{{ e.alternative }}</dd>{% endif %}
+  <dt>CNES</dt><dd>{{ e.identifier }}</dd>
+  <dt>Termos</dt>
+  <dd>
+    <ul class="chips">
+      {% for t in termos %}
+      {% if t in caracteristicas %}{% set par = 'caracteristica' %}{% elif t in categorias %}{% set par = 'categoria' %}{% elif t in tipos %}{% set par = 'tipo' %}{% endif %}
+      <li><a href="/busca?{{ par }}={{ t|urlencode }}">{{ t }}</a></li>
+      {% endfor %}
+    </ul>
+  </dd>
+</dl>
+{% if ponto %}
+<div id="mapa-pequeno" class="mapa mapa-pequeno" aria-label="Localização no mapa"></div>
+<p><a href="https://www.openstreetmap.org/directions?to={{ ponto.lat }},{{ ponto.lon }}">Como chegar</a></p>
+<script type="application/json" id="ponto">{{ ponto|tojson }}</script>
+{% endif %}
+{% endblock %}
+{% block scripts %}
+{% if ponto %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/static/mapa.js"></script>
+{% endif %}
+{% endblock %}

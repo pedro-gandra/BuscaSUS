@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block conteudo %}
+<section class="hero">
+  <h1>Encontre um serviço de saúde do SUS</h1>
+  <p>Busque do jeito que você fala: “postinho”, “UPA”, “CERSAM”. Em {{ info.municipio_nome }}.</p>
+  <form action="/busca" method="get" role="search">
+    <label for="q-inicio" class="so-leitor">O que você procura?</label>
+    <input id="q-inicio" name="q" type="search" placeholder="Ex.: postinho no Barreiro" autofocus>
+    <button type="submit">Buscar</button>
+  </form>
+  <p class="meta">Dica: use AND, OR, NOT (em maiúsculas) e parênteses, como em <em>(caps OR policlínica) AND barreiro</em>.</p>
+</section>
+<section>
+  <h2>Exemplos</h2>
+  <ul class="chips">
+    {% for ex in exemplos %}<li><a href="/busca?q={{ ex|urlencode }}">{{ ex }}</a></li>{% endfor %}
+  </ul>
+</section>
+<section>
+  <h2>Por categoria</h2>
+  <ul class="chips">
+    {% for c in categorias %}<li><a href="/busca?categoria={{ c|urlencode }}">{{ c }}</a></li>{% endfor %}
+  </ul>
+</section>
+{% endblock %}
