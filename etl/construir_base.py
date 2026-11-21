@@ -25,7 +25,7 @@ COLUNAS = [
 ]  # sem CNPJ e sem e-mail, de propósito
 SIGLAS = {"UPA", "UBS", "CAPS", "CERSAM", "SUS", "CEO", "PSF", "ESF", "SADT", "BH",
           "AD", "UFMG", "HC", "II", "III", "IV", "CTI", "UTI", "SAMU", "ONG"}
-MINUSCULAS = {"de", "da", "do", "das", "dos", "e", "em", "a", "o"}
+MINUSCULAS = {"de", "da", "do", "das", "dos", "e", "em", "a", "o", "no", "na", "nos", "nas"}
 
 SCHEMA = """
 CREATE TABLE estabelecimento (
