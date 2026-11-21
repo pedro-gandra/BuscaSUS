@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}BuscaSUS{% endblock %}</title>
+  <link rel="stylesheet" href="/static/estilo.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <header class="topo">
+    <a class="marca" href="/">BuscaSUS</a>
+    <form class="busca-topo" action="/busca" method="get" role="search">
+      <label for="q-topo" class="so-leitor">Buscar estabelecimento de saúde</label>
+      <input id="q-topo" name="q" type="search" value="{{ q or '' }}" placeholder="postinho, UPA, hospital…">
+      <button type="submit">Buscar</button>
+    </form>
+  </header>
+  <main>{% block conteudo %}{% endblock %}</main>
+  <footer class="rodape">
+    <p>Fonte: CNES – Estabelecimentos, Ministério da Saúde. Dados de {{ info.data_fonte }}.</p>
+    <p>Projeto acadêmico, sem vínculo com o Ministério da Saúde. Estar no cadastro não garante atendimento ou vaga.</p>
+  </footer>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

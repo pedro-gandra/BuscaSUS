@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block titulo %}{{ q or 'Busca' }} – BuscaSUS{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+{% endblock %}
+{% block conteudo %}
+<section class="interpretacao">
+  {% if q %}<p>Você buscou <strong>{{ interp.buscou }}</strong> → mostrando <strong>{{ interp.mostrando }}</strong></p>{% endif %}
+  {% if interp.aviso %}<p class="aviso" role="status">{{ interp.aviso }}</p>{% endif %}
+</section>
+
+<form class="filtros" action="/busca" method="get">
+  <input type="hidden" name="q" value="{{ q }}">
+  {% if usuario %}<input type="hidden" name="lat" value="{{ lat }}"><input type="hidden" name="lon" value="{{ lon }}">{% endif %}
+  <details {% if filtros_ativos %}open{% endif %}>
+    <summary>Filtros</summary>
+    {% for nome, rotulo, opcoes in [('categoria','Categoria',categorias),('tipo','Tipo',tipos),('caracteristica','Característica',caracteristicas),('esfera','Esfera',esferas)] %}
+    <fieldset>
+      <legend>{{ rotulo }}</legend>
+      {% for o in opcoes %}
+      <label class="opcao"><input type="checkbox" name="{{ nome }}" value="{{ o }}" {% if o in sel[nome] %}checked{% endif %}> {{ o }}</label>
+      {% endfor %}
+    </fieldset>
+    {% endfor %}
+  </details>
+  <div class="linha">
+    <label for="ordem">Ordenar por</label>
+    <select id="ordem" name="ordem">
+      <option value="relevancia" {% if ordem == 'relevancia' %}selected{% endif %}>Relevância</option>
+      <option value="nome" {% if ordem == 'nome' %}selected{% endif %}>Nome</option>
+      {% if usuario %}<option value="distancia" {% if ordem == 'distancia' %}selected{% endif %}>Distância</option>{% endif %}
+    </select>
+    <button type="submit">Aplicar</button>
+  </div>
+</form>
+
+<div class="acoes">
+  <button type="button" id="perto-de-mim">Perto de mim</button>
+  <span id="msg-geo" class="aviso" role="status"></span>
+</div>
+
+<p class="contagem">{{ resultados|length }} resultado{{ '' if resultados|length == 1 else 's' }}</p>
+
+<div class="layout">
+  <div id="mapa" class="mapa" aria-label="Mapa dos resultados"></div>
+  <ul class="lista">
+    {% for r in resultados %}
+    <li class="cartao">
+      <a class="nome" href="/estabelecimento/{{ r.identifier }}">{{ r.title }}</a>
+      <div class="meta">{{ r.type }} · {{ r.categoria }}</div>
+      <div>{{ r.logradouro }}{% if r.numero %}, {{ r.numero }}{% endif %}{% if r.bairro %} – {{ r.bairro }}{% endif %}</div>
+      {% if r.distancia_km is defined and r.distancia_km is not none %}<div class="meta">{{ '%.1f'|format(r.distancia_km) }} km de você</div>{% endif %}
+    </li>
+    {% else %}
+    <li class="vazio">Nenhum estabelecimento encontrado. Tente outras palavras ou remova filtros.</li>
+    {% endfor %}
+  </ul>
+</div>
+<script type="application/json" id="pontos">{{ pontos|tojson }}</script>
+<script type="application/json" id="usuario">{{ usuario|tojson }}</script>
+{% endblock %}
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="/static/mapa.js"></script>
+{% endblock %}
